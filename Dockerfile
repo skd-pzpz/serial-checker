@@ -6,13 +6,18 @@ RUN npm install
 
 COPY . .
 
-# 构建阶段需要这些环境变量占位，避免 next build 报错
-# 运行时会被 CloudBase 注入的真实值覆盖
-ENV DATABASE_URL="postgresql://placeholder:placeholder@localhost:5432/postgres"
-ENV NEXTAUTH_SECRET="placeholder"
-ENV NEXTAUTH_URL="http://localhost:3000"
-ENV ADMIN_USERNAME="admin"
-ENV ADMIN_PASSWORD_HASH="placeholder"
+# 构建阶段：用假值让 next build 不报错
+ARG DATABASE_URL="postgresql://x:x@localhost:5432/x"
+ARG NEXTAUTH_SECRET="x"
+ARG NEXTAUTH_URL="http://localhost:3000"
+ARG ADMIN_USERNAME="x"
+ARG ADMIN_PASSWORD_HASH="x"
+
+ENV DATABASE_URL=${DATABASE_URL}
+ENV NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
+ENV NEXTAUTH_URL=${NEXTAUTH_URL}
+ENV ADMIN_USERNAME=${ADMIN_USERNAME}
+ENV ADMIN_PASSWORD_HASH=${ADMIN_PASSWORD_HASH}
 
 RUN npm run build
 
